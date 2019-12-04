@@ -32,9 +32,7 @@ class ActivityCli
            exit(true)
         end
 
-        # until input == 1 || screen_one_option == 2 || screen_one_option == 3 do
-        #     screen_one_option = ActivityCli.screen_one
-        # end
+    
     end
 
     def self.screen_two
@@ -87,16 +85,18 @@ class ActivityCli
             
             user_exercise = self.get_exercise
             activity_duration = self.get_duration
-            puts "Guess what #{@@current_user.name}! You burned #{@@current_user.calories_burnt(user_exercise, activity_duration).to_i} kcal today! :) "
+            puts "Guess what #{@@current_user.name}! You burned #{@@current_user.calories_burnt(user_exercise, activity_duration)} kcal today! :) "
 
             self.screen_three
         elsif input == 2 
 
           
            puts "Congratulations #{@@current_user.name}. You've completed #{@@current_user.activities.count} activities and the total amount of calories you have burnt is #{@@current_user.total_calories_burnt.to_i} kcal"
-
+           puts "These are your activities:"
+           self.show_activities
            self.screen_three
         elsif input == 3  # this option updates
+            self.show_activities
             returned_list = @@current_user.list_activities
 
             puts "Please select the activity you would like to update"
@@ -127,7 +127,7 @@ class ActivityCli
 
             if attr_option == 1 #this option will change the type of exercise
                 puts "What would you like to change the exercise to "
-                Exercise.list_exercises
+                self.list_exercises
 
                new_exercise= gets.chomp.to_i
 
@@ -151,6 +151,7 @@ class ActivityCli
            
             self.screen_three
         elsif input == 4 #this option deletes
+            self.show_activities
             returned_list = @@current_user.list_activities
 
             puts "Please select the activity you would like to delete"
@@ -168,7 +169,8 @@ class ActivityCli
                 Activity.delete_activity(returned_list[delete_option])
                 puts "You deleted option #{delete_option}"
                 puts "Here is the updated list of you activities"
-                @@current_user.list_activities
+                self.show_activities
+                # @@current_user.list_activities
                 self.screen_three
             else
                 self.screen_three
@@ -213,17 +215,13 @@ class ActivityCli
         User.find_by(name: name)
     end
 
-    def timestamp()
-        Time.now.strftime '%Y-%m-%d %H:%M:%S'
-    end
-
     @@say_message = true
 
     def self.get_exercise
         if @@say_message 
             puts "Well done for tracking your activity #{@@current_user.name}! Please choose the number of the exercise you did today."
         end
-        Exercise.list_exercises
+        self.list_exercises
         user_exercise= gets.chomp.to_i
         if user_exercise < 1 || user_exercise > Exercise.all.count
             @@say_message = false
@@ -237,5 +235,19 @@ class ActivityCli
         puts "How long was your activity?"
         activity_duration = gets.chomp.to_i
     end
+
+    def self.show_activities
+        index = 1
+        Activity.where(user_id:@@current_user.id).each{|activity|
+        puts "#{index}. On #{activity.date.to_formatted_s(:long_ordinal)} YOU did #{activity.exercise.type_of_exercise} for #{activity.duration} minutes and burnt #{activity.calories_burnt.to_i}"
+        index +=1
+        }
+    end
+
+    def self.list_exercises 
+        Exercise.all.each {|exercise|
+            puts "#{exercise.id}. #{exercise.type_of_exercise} "
+        }
+   end
 
 end
