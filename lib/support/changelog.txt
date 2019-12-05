@@ -19,4 +19,4 @@ Known Bugs:
     -  Add colour to text in CLI
     - Centered text in CLI 
 - Removed .screen_transition in activity_cli.rb and introduct system "clear"
-
+- Basic test added
