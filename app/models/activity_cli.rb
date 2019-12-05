@@ -42,14 +42,12 @@ class ActivityCli
 
         screen = Curses.init_screen
         width = screen.maxx
-        new_line = "\n"
+      
 
         puts "Please choose one of the following options:".center(width).blue
-        puts new_line
+        puts "\n"
         puts "1. Login".center(width)
-        puts new_line
         puts "2. Create New User".center(width)
-        puts new_line
         puts "3. Exit".center(width)
 
         close_screen
@@ -133,6 +131,8 @@ class ActivityCli
             system "clear"
            self.screen_one
         end
+
+
     end
 
 
@@ -188,21 +188,39 @@ class ActivityCli
 
             system "clear"
 
-           puts "Congratulations #{@@current_user.name}. You've completed #{@@current_user.activities.count} activities and the total amount of calories you have burnt is #{@@current_user.total_calories_burnt.to_i} kcal"
-           puts "These are your activities:"
-           self.show_activities
-           self.screen_three
+            screen = Curses.init_screen
+            width = screen.maxx
+
+            puts "Congratulations #{@@current_user.name}. You've completed #{@@current_user.activities.count} activities and the total amount of calories you have burnt is #{@@current_user.total_calories_burnt.to_i} kcal".center(width).green
+            puts "\n"
+            puts "These are your activities:".center(width).blue
+            puts "\n"
+
+            self.show_activities
+
+            puts "\n"
+            puts "Please press enter to continue ...".center(width)
+
+            close_screen
+
+            gets.chomp
+            system "clear"
+
+            self.screen_three
         elsif input == 3  # this option updates
             system "clear"
+
+            puts "Hey #{@@current_user.name}!Here's a list of your activities".center(width).blue
+            puts "\n"
 
             self.show_activities
             returned_list = @@current_user.list_activities
 
-            puts "Please select the activity you would like to update"
+            puts "Please select the activity you would like to update".center(width).blue
             update_option = gets.chomp.to_i
 
             until (update_option >= 1 && update_option <= (returned_list.count-1)) do
-                puts "Incorrect option, Please select the activity you would like to update"
+                puts "Incorrect option, Please select the activity you would like to update".center(width).red
                 update_option = gets.chomp.to_i
             end
 
@@ -212,26 +230,26 @@ class ActivityCli
             #method that returns current duration based on user update option
         
 
-            puts "Which attribute would you like to change."
-            puts "1. Activity - the current activity is #{Activity.current_type_of_exercise(returned_list[update_option])}"
-            puts "2. Duration  - the current duration for activity #{Activity.current_type_of_exercise(returned_list[update_option])} is #{Activity.current_duration(returned_list[update_option])} minutes" 
+            puts "Which attribute would you like to change.".center(width).blue
+            puts "1. Activity - the current activity is #{Activity.current_type_of_exercise(returned_list[update_option])}".center(width)
+            puts "2. Duration  - the current duration for activity #{Activity.current_type_of_exercise(returned_list[update_option])} is #{Activity.current_duration(returned_list[update_option])} minutes".center(width) 
 
             attr_option = gets.chomp.to_i
 
             until (attr_option >= 1 && attr_option <= 2) do
-                puts "Incorrect attribute, Please select the attribute you would like to update"
+                puts "Incorrect attribute, Please select the attribute you would like to update".center(width).red
                 attr_option = gets.chomp.to_i
 
             end
 
             if attr_option == 1 #this option will change the type of exercise
-                puts "What would you like to change the exercise to "
+                puts "What would you like to change the exercise to ".center(width).blue
                 self.list_exercises
 
                new_exercise= gets.chomp.to_i
 
                until (new_exercise >= 1 && new_exercise <= Exercise.all.count) do
-                puts "Incorrect option, Please select the exercise you would like to update"
+                puts "Incorrect option, Please select the exercise you would like to update".center(width).red
                 new_exercise = gets.chomp.to_i
                 end
 
@@ -239,42 +257,59 @@ class ActivityCli
 
 
             else # this option is automatically 2 and will change duration
-                puts "What would you like to change the duration to"
+                puts "What would you like to change the duration to".center(width).blue
                 new_duration = gets.chomp.to_i
                Activity.update_activity_duration(returned_list[update_option],new_duration)
 
                 #dont forget to update calories burnt
             end
 
-            
+            puts "Pssst #{@@current_user.name}, we've updated your activity records".center(width)
+            puts "Press enter to continue ... ".center(width)
+
+            gets.chomp
+
+            system "clear"
            
             self.screen_three
         elsif input == 4 #this option deletes
 
             system "clear"
 
+            puts "Hey #{@@current_user.name}!Here's a list of your activities".center(width).blue
+            puts "\n"
+
             self.show_activities
             returned_list = @@current_user.list_activities
 
-            puts "Please select the activity you would like to delete"
+            puts "Please select the activity you would like to delete".center(width).blue
             delete_option = gets.chomp.to_i
 
             until (delete_option >= 1 && delete_option <= (returned_list.count-1)) do
-                puts "Incorrect option, Please select the activity you would like to delete"
+                puts "Incorrect option, Please select the activity you would like to delete".center(width).red
                 delete_option = gets.chomp.to_i
             end
 
-            puts "Are you sure you would like to delete activiy #{delete_option}. Y or N"
+            puts "Are you sure you would like to delete activity #{delete_option}. Y or N".center(width).red
             sure = gets.chomp
 
             if sure == "Y" || sure == "y"
                 Activity.delete_activity(returned_list[delete_option])
-                puts "You deleted option #{delete_option}"
-                puts "Here is the updated list of you activities"
-                self.show_activities
-                # @@current_user.list_activities
+                puts "You deleted option #{delete_option}".center(width).green
+                puts "\n"
+                puts "Here is the updated list of you activities".center(width).blue
+                puts "\n"
+                self.show_activities   
+                puts "Press enter to continue".center(width)
+                gets.chomp
+                system "clear"
                 self.screen_three
             else
+                puts "Delete cancelled".center(width).green
+                puts "\n"
+                puts "Press enter to continue".center(width)
+                gets.chomp
+                system "clear"
                 self.screen_three
             end
                 
@@ -291,9 +326,10 @@ class ActivityCli
            ╚═╝██║         ██║  ███╗██║   ██║██║   ██║██║  ██║██████╔╝ ╚████╔╝ █████╗  ██║
            ██╗██║         ██║   ██║██║   ██║██║   ██║██║  ██║██╔══██╗  ╚██╔╝  ██╔══╝  ╚═╝
            ╚═╝╚██╗        ╚██████╔╝╚██████╔╝╚██████╔╝██████╔╝██████╔╝   ██║   ███████╗██╗
-               ╚═╝         ╚═════╝  ╚═════╝  ╚═════╝ ╚═════╝ ╚═════╝    ╚═╝   ╚══════╝╚═╝".blue
+               ╚═╝         ╚═════╝  ╚═════╝  ╚═════╝ ╚═════╝ ╚═════╝    ╚═╝   ╚══════╝╚═╝".center(width).blue
 
-            puts "\n Come again soon #{@@current_user.name}!".blue
+            puts "\n"
+            puts "Come again soon #{@@current_user.name}!".center(125).blue
 
             gets.chomp
             system "clear"
@@ -303,20 +339,32 @@ class ActivityCli
     end
 
     def self.screen_four # this screen creates a new user
-        puts "Please enter your name:"
+
+        screen = Curses.init_screen
+        width = screen.maxx
+        close_screen
+
+        puts "Please enter your name:".center(width).blue
         name = gets.chomp
-        puts "Please enter your surname:"
+        puts "Please enter your surname:".center(width).blue
         surname = gets.chomp
-        puts "Please enter your height in cm:"
+        puts "Please enter your height in cm:".center(width).blue
         height = gets.chomp.to_i
-        puts "Please enter your weight in kg:"
+        puts "Please enter your weight in kg:".center(width).blue
         weight = gets.chomp.to_i
-        puts "Please enter your age"
+        puts "Please enter your age".center(width).blue
         age = gets.chomp.to_i
-        puts "Please enter your gender"
+        puts "Please enter your gender".center(width).blue
         gender = gets.chomp
 
         User.create(name: name, surname: surname, height: height, weight: weight, age: age, gender: gender)
+
+        puts "\n"
+        puts "Thanks for joining ActiTrac #{name}!".center(width).green
+        puts "Press enter to continue".center(width)
+
+        gets.chomp
+        system "clear"
     
         self.screen_one
     end
@@ -374,16 +422,19 @@ class ActivityCli
     def self.show_activities
         index = 1
         Activity.where(user_id:@@current_user.id).each{|activity|
-        puts "#{index}. On #{activity.date.to_formatted_s(:long_ordinal)} YOU did #{activity.exercise.type_of_exercise} for #{activity.duration} minutes and burnt #{activity.calories_burnt.to_i}"
+        screen = Curses.init_screen
+        width = screen.maxx
+        puts "#{index}. On #{activity.date.to_formatted_s(:long_ordinal)} you did #{activity.exercise.type_of_exercise} for #{activity.duration} minutes and burnt #{activity.calories_burnt.to_i} kcal".center(width)
+        close_screen
         index +=1
         }
+        puts "\n"
     end
 
     def self.list_exercises 
         Exercise.all.each {|exercise|
             screen = Curses.init_screen
             width = screen.maxx
-            puts "\n"
             puts "#{exercise.id}. #{exercise.type_of_exercise} ".center(width)
             close_screen
         }
