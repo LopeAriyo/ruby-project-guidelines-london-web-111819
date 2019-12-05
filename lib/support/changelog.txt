@@ -1,0 +1,22 @@
+04Dec19 - v1
+- Introduced faker (also updated gemfile)
+- Completed screen flow with the “happy path”
+- Conducted some “manual” testing for “unhappy paths”
+- Changed #list_activities method:
+    Removed “puts..” messages from the method and placed it in the CLI interface
+- Fixed a bug for “0 calories”
+- Fixed a bug so that exercise ids are taken from the table as expected.
+Notes:
+1. Seed data does not properly calculate calories_burnt. They are fake.
+However, they are updated correctly when update function is called (regardless what is updated - duration or execise type-
+calories_burnt calculated and written to table)
+Known Bugs:
+
+
+
+05Dec19 - v2
+- Added gems "colorize" and "curses"
+    -  Add colour to text in CLI
+    - Centered text in CLI 
+- Removed .screen_transition in activity_cli.rb and introduct system "clear"
+

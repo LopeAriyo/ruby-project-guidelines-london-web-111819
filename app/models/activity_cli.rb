@@ -1,101 +1,200 @@
+require 'curses' 
+include Curses
+require 'colorize'
+
 class ActivityCli
 
     # @@current_user = nil
 
-    def self.screen_transition 
-        puts "=========="
-        puts "=========="
+    def self.welcome_screen
+
+        puts "
+        ██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗    ████████╗ ██████╗      █████╗  ██████╗████████╗██╗████████╗██████╗  █████╗  ██████╗
+        ██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝    ╚══██╔══╝██╔═══██╗    ██╔══██╗██╔════╝╚══██╔══╝██║╚══██╔══╝██╔══██╗██╔══██╗██╔════╝
+        ██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗         ██║   ██║   ██║    ███████║██║        ██║   ██║   ██║   ██████╔╝███████║██║     
+        ██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝         ██║   ██║   ██║    ██╔══██║██║        ██║   ██║   ██║   ██╔══██╗██╔══██║██║     
+        ╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗       ██║   ╚██████╔╝    ██║  ██║╚██████╗   ██║   ██║   ██║   ██║  ██║██║  ██║╚██████╗
+         ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝       ╚═╝    ╚═════╝     ╚═╝  ╚═╝ ╚═════╝   ╚═╝   ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝".blue
+
+        init_screen # initialize 'formatting' screen
+   
+        screen = Curses.init_screen
+        width = screen.maxx
+        new_line = "\n"
+
+        puts new_line
+        puts "Actitrac is an app that helps you log and keep record of your daily exercise activities.".center(width)
+        puts "In addition you are able to find out how many calories you've burnt from your workout" .center(width)
+        puts "Let's get started!".center(width)
+        puts new_line
+        puts "Please press enter" .center(width)
+
+        close_screen
+    
+        gets.chomp
+        system "clear"
+
+        self.screen_one
+
     end
 
-    def self.screen_one
-        puts "Please choose one of the following options:"
-        puts "1. Login"
-        puts "2. Create New User"
-        puts "3. Exit"
+    def self.screen_one 
+
+        screen = Curses.init_screen
+        width = screen.maxx
+        new_line = "\n"
+
+        puts "Please choose one of the following options:".center(width).blue
+        puts new_line
+        puts "1. Login".center(width)
+        puts new_line
+        puts "2. Create New User".center(width)
+        puts new_line
+        puts "3. Exit".center(width)
+
+        close_screen
+
         input = gets.chomp.to_i
 
+
         if input < 1 || input > 3
+            system "clear"
+            screen = Curses.init_screen
+            width = screen.maxx
+            puts "!!!! Incorrect option !!!!".center(width).red
+            close_screen
             self.screen_one
         else
             input
         end   
 
         if input == 1 
+            ##### goes into activity option screen
+            system "clear"
             self.screen_two
         elsif input == 2
             ###### create new user
+            system "clear"
             self.screen_four
         elsif input == 3
            ### ends programme
-           puts "Bye!"
+            system "clear"
+            puts "    
+               ██╗         ██████╗  ██████╗  ██████╗ ██████╗ ██████╗ ██╗   ██╗███████╗██╗
+           ██╗██╔╝        ██╔════╝ ██╔═══██╗██╔═══██╗██╔══██╗██╔══██╗╚██╗ ██╔╝██╔════╝██║
+           ╚═╝██║         ██║  ███╗██║   ██║██║   ██║██║  ██║██████╔╝ ╚████╔╝ █████╗  ██║
+           ██╗██║         ██║   ██║██║   ██║██║   ██║██║  ██║██╔══██╗  ╚██╔╝  ██╔══╝  ╚═╝
+           ╚═╝╚██╗        ╚██████╔╝╚██████╔╝╚██████╔╝██████╔╝██████╔╝   ██║   ███████╗██╗
+               ╚═╝         ╚═════╝  ╚═════╝  ╚═════╝ ╚═════╝ ╚═════╝    ╚═╝   ╚══════╝╚═╝".blue
 
-           exit(true)
+            gets.chomp
+            system "clear"    
+
+            exit(true)
         end
 
     
     end
 
     def self.screen_two
-        self.screen_transition
-        puts "Please choose one of the following options:"
-        puts "1. Enter name"
-        puts "2. Go back to main menu"
+
+        init_screen # initialize 'formatting' screen
+   
+        screen = Curses.init_screen
+        width = screen.maxx
+        
+        puts "Please choose one of the following options:".center(width).blue
+        puts "\n"
+        puts "1. Enter name".center(width)
+        puts "2. Go back to main menu".center(width)
 
         input = gets.chomp.to_i
 
         if input < 1 || input > 2
+            system "clear"
+            screen = Curses.init_screen
+            width = screen.maxx
+            puts "!!!! Incorrect option !!!!".center(width).red
+            close_screen
             self.screen_two
         else
             input
         end   
 
         if input == 1 
+            system "clear"
             @@current_user = self.get_user
             until @@current_user != nil
                 @@current_user = self.get_user
             end
+            system "clear"
             self.screen_three
         elsif input == 2
+            system "clear"
            self.screen_one
         end
     end
 
 
     def self.screen_three
-        self.screen_transition
-        puts "Welcome #{@@current_user.name}!"
-        puts "Please choose one of the following options:"
-        puts "1. Enter a new activity"
-        puts "2. Find out your total calories burned"
-        puts "3. Change a previous activity"
-        puts "4. Delete a previous activity"
-        puts "5. Go back to main menu"
-        puts "6. Exit app"
-        # binding.pry
+
+        screen = Curses.init_screen
+        width = screen.maxx
+       
+        puts "Welcome #{@@current_user.name}!".center(width).blue 
+        puts "Please choose one of the following options:".center(width).blue
+        puts "\n"
+        puts "1. Enter a new activity".center(width)
+        puts "2. Find out your total calories burned".center(width)
+        puts "3. Change a previous activity".center(width)
+        puts "4. Delete a previous activity".center(width)
+        puts "5. Go back to main menu".center(width)
+        puts "6. Exit app".center(width)
+
+        close_screen
+      
 
         input = gets.chomp.to_i
 
         if input < 1 || input > 6
+            system "clear"
+            screen = Curses.init_screen
+            width = screen.maxx
+            puts "!!!! Incorrect option !!!!".center(width).red
+            close_screen
             self.screen_three
         else
             input
         end  
 
         if input == 1
-            
+            system "clear"
+
             user_exercise = self.get_exercise
             activity_duration = self.get_duration
-            puts "Guess what #{@@current_user.name}! You burned #{@@current_user.calories_burnt(user_exercise, activity_duration)} kcal today! :) "
+            screen = Curses.init_screen
+            width = screen.maxx
+            puts "Guess what #{@@current_user.name}! You burned #{@@current_user.calories_burnt(user_exercise, activity_duration)} kcal today! :)".center(width).green
+            puts "\n"
+            puts "Please press enter to continue ...".center(width)
+
+            close_screen
+
+            gets.chomp
+            system "clear"
 
             self.screen_three
         elsif input == 2 
 
-          
+            system "clear"
+
            puts "Congratulations #{@@current_user.name}. You've completed #{@@current_user.activities.count} activities and the total amount of calories you have burnt is #{@@current_user.total_calories_burnt.to_i} kcal"
            puts "These are your activities:"
            self.show_activities
            self.screen_three
         elsif input == 3  # this option updates
+            system "clear"
+
             self.show_activities
             returned_list = @@current_user.list_activities
 
@@ -151,6 +250,9 @@ class ActivityCli
            
             self.screen_three
         elsif input == 4 #this option deletes
+
+            system "clear"
+
             self.show_activities
             returned_list = @@current_user.list_activities
 
@@ -177,11 +279,26 @@ class ActivityCli
             end
                 
         elsif input == 5
-           self.screen_one
-        elsif input == 6
-            puts "Bye #{@@current_user.name}!"
+            system "clear"
 
-           exit(true)
+           self.screen_one
+        elsif input == 6 #quits appp
+            
+            system "clear"
+            puts "    
+               ██╗         ██████╗  ██████╗  ██████╗ ██████╗ ██████╗ ██╗   ██╗███████╗██╗
+           ██╗██╔╝        ██╔════╝ ██╔═══██╗██╔═══██╗██╔══██╗██╔══██╗╚██╗ ██╔╝██╔════╝██║
+           ╚═╝██║         ██║  ███╗██║   ██║██║   ██║██║  ██║██████╔╝ ╚████╔╝ █████╗  ██║
+           ██╗██║         ██║   ██║██║   ██║██║   ██║██║  ██║██╔══██╗  ╚██╔╝  ██╔══╝  ╚═╝
+           ╚═╝╚██╗        ╚██████╔╝╚██████╔╝╚██████╔╝██████╔╝██████╔╝   ██║   ███████╗██╗
+               ╚═╝         ╚═════╝  ╚═════╝  ╚═════╝ ╚═════╝ ╚═════╝    ╚═╝   ╚══════╝╚═╝".blue
+
+            puts "\n Come again soon #{@@current_user.name}!".blue
+
+            gets.chomp
+            system "clear"
+
+            exit(true)
         end
     end
 
@@ -205,10 +322,18 @@ class ActivityCli
     end
 
     def self.get_user
-        puts "Please enter your name"
+        screen = Curses.init_screen
+        width = screen.maxx
+        puts "Please enter your name".center(width).blue
+        close_screen
         name= gets.chomp
+
         if !User.find_by(name: name)
-            puts "Bye bye, you're not welcome"
+            system "clear"
+            screen = Curses.init_screen
+            width = screen.maxx
+            puts "Your name isn't registered in our database :( Please try again!".center(width).red
+            close_screen
             user = nil
             return user
         end
@@ -218,8 +343,13 @@ class ActivityCli
     @@say_message = true
 
     def self.get_exercise
+        
+        
         if @@say_message 
-            puts "Well done for tracking your activity #{@@current_user.name}! Please choose the number of the exercise you did today."
+            screen = Curses.init_screen
+            width = screen.maxx
+            puts "Well done for tracking your activity #{@@current_user.name}! Please choose the number of the exercise you did today.".center(width).blue
+            close_screen
         end
         self.list_exercises
         user_exercise= gets.chomp.to_i
@@ -229,10 +359,15 @@ class ActivityCli
         else
             user_exercise
         end 
+
+        
     end
 
     def self.get_duration
-        puts "How long was your activity?"
+        screen = Curses.init_screen
+        width = screen.maxx
+        puts "How long was your activity in minutes?".center(width).blue
+        close_screen
         activity_duration = gets.chomp.to_i
     end
 
@@ -246,7 +381,11 @@ class ActivityCli
 
     def self.list_exercises 
         Exercise.all.each {|exercise|
-            puts "#{exercise.id}. #{exercise.type_of_exercise} "
+            screen = Curses.init_screen
+            width = screen.maxx
+            puts "\n"
+            puts "#{exercise.id}. #{exercise.type_of_exercise} ".center(width)
+            close_screen
         }
    end
 
