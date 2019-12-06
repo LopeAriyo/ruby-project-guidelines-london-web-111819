@@ -57,3 +57,49 @@ Projects need to be approved prior to launching into them, so take some time to 
 # in config/environment.rb add this line:
 ActiveRecord::Base.logger = nil
 ```
+
+
+## Implementation
+
+Hi! 👋
+
+This section provides (key) implementation details for the solution.
+
+### Model Design
+
+Each exercise is an entry with its attributes in the exercises table.
+Each user is an entry with its attributes in the users table.
+Each activity is an entry in the activities table and it joins a user_id with an exercise_id.
+
+All the models above have further attributes. Please refer to schema.rb
+
+### CLI
+
+CLI provides entry point for login and new user creation.
+
+For logged in user, following options are provided through CLI:
+- Enter a new activity
+- View activities entered with total calories burnt
+- Update an activity [Duration or exercise type]
+- Delete an activity [with a further confirmation screen]
+
+CLI provides various hooks to "go back to previous menu" and/or "exit".
+
+### rspec Details
+
+Basic testing provided in test_1.rb. Basic tests include:
+- test to check if a new user can be added
+- test to check if a new exercise can be added
+- test to check if a new activity can be added (and linked to user_id and exercise_id)
+
+Please see Known Bugs, Issues, Future Enhancements for further details on rspec details.
+
+### Known Bugs, Issues, Future Enhancements
+
+1. Input validation for very large numbers do not exist. Such input breaks the system.
+2. Extreme care should be taken when updating rspec helper as it has the potential to overwrite db after every test and/or before every test cycle. Such destructive settings are disabled.
+
+### Changelog (commit history)
+**change log reference:** [changelog reference](https://github.com/LopeAriyo/ruby-project-guidelines-london-web-111819/blob/master/lib/support/changelog.txt)
+**github reference:** [github reference](https://github.com/LopeAriyo/ruby-project-guidelines-london-web-111819)
+

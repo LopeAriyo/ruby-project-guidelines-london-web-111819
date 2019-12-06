@@ -1,0 +1,4 @@
+app/models/user.rb 9a1a907469f6ed77e9a1070d64cac9c0546cb5d3
+app/models/activity.rb cac7cf9c2832ab1bf84e7c3daa5dc9ae554787dc
+app/models/exercise.rb 48f4ad78a1b1fa35c233220837ade93594b7092d
+app/models/activity_cli.rb 370d3210859e70e4c1c16175e5abf29ae831d252

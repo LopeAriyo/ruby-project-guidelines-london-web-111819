@@ -20,3 +20,7 @@ Known Bugs:
     - Centered text in CLI 
 - Removed .screen_transition in activity_cli.rb and introduct system "clear"
 - Basic test added
+
+06Dec - v3 
+- Added full README
+- Introduce yard in gemfile

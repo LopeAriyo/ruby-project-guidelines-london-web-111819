@@ -58,6 +58,7 @@ GEM
     tilt (2.0.7)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    yard (0.9.20)
 
 PLATFORMS
   ruby
@@ -72,6 +73,7 @@ DEPENDENCIES
   rspec
   sinatra-activerecord
   sqlite3
+  yard
 
 BUNDLED WITH
    1.17.3
